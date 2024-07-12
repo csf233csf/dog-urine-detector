@@ -1,0 +1,1 @@
+tail -f db_monitor.log
