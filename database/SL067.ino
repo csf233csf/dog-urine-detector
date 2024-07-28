@@ -3,14 +3,12 @@
 
 const char* ssid = "YOUR_WIFI_SSID";  // 替换为您的WiFi SSID
 const char* password = "YOUR_WIFI_PASSWORD";  // 替换为您的WiFi密码
-const char* serverName = "http://www.kanohamnos.site/upload_water";  // 替换为您的服务器URL
+const char* serverName = "http://www.kanohamnos.site/upload_water";  // 数据库水位url
 
 const int sensorPin = A0;  // 水位传感器连接到 A0 引脚
 
 void setup() {
-  Serial.begin(115200);  // 初始化串口通讯
-
-  // 开始连接Wi-Fi
+  Serial.begin(115200); 
   Serial.println();
   Serial.println();
   Serial.print("Connecting to ");
@@ -18,8 +16,8 @@ void setup() {
 
   WiFi.begin(ssid, password);
 
-  int attempts = 0;  // 记录尝试次数
-  while (WiFi.status() != WL_CONNECTED && attempts < 20) {  // 尝试20次
+  int attempts = 0;  
+  while (WiFi.status() != WL_CONNECTED && attempts < 20) {  // 尝试20次 WIFI
     delay(500);
     Serial.print(".");
     attempts++;
@@ -42,7 +40,6 @@ void loop() {
     int sensorValue = analogRead(sensorPin);
     float voltage = sensorValue * (5.0 / 1023.0);  // 将模拟值转换为电压值
 
-    // 打印调试信息
     Serial.print("Water Level (analog value): ");
     Serial.print(sensorValue);
     Serial.print("   Voltage: ");
@@ -51,7 +48,6 @@ void loop() {
     // 将数据转换为JSON字符串
     String jsonData = "{\"water_level\":" + String(sensorValue) + "}";
 
-    // 通过REST API调用
     WiFiClient client;
     HTTPClient http;
     Serial.println("URL: " + String(serverName));
@@ -76,5 +72,5 @@ void loop() {
     Serial.println("Error in WiFi connection");
   }
 
-  delay(10000);  // 每10秒发送一次数据
+  delay(5000);  // 每5秒发送一次数据
 }

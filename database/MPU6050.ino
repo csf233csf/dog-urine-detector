@@ -7,7 +7,7 @@
 const char* ssid = "YOUR_WIFI_SSID";  // 替换为您的WiFi SSID
 const char* password = "YOUR_WIFI_PASSWORD";  // 替换为您的WiFi密码
 
-const char* serverName = "http://www.kanohamnos.site/upload";  // 替换为您的服务器URL
+const char* serverName = "http://www.kanohamnos.site/upload"; // 数据库 URL
 
 MPU6050 mpu;
 
@@ -33,17 +33,14 @@ void setup() {
 
 void loop() {
   if (WiFi.status() == WL_CONNECTED) {
-    // 读取MPU6050数据
     int16_t ax, ay, az;
     int16_t gx, gy, gz;
     mpu.getAcceleration(&ax, &ay, &az);
     mpu.getRotation(&gx, &gy, &gz);
 
-    // 准备要发送的数据
     String jsonData = "{\"acceleration\":{\"x\":" + String(ax) + ", \"y\":" + String(ay) + ", \"z\":" + String(az) + "},"
                       "\"gyroscope\":{\"x\":" + String(gx) + ", \"y\":" + String(gy) + ", \"z\":" + String(gz) + "}}";
 
-    // 通过REST API调用
     WiFiClient client;
     HTTPClient http;
     Serial.println("URL: " + String(serverName));
@@ -68,5 +65,5 @@ void loop() {
     Serial.println("Error in WiFi connection");
   }
 
-  delay(5000);  // 每10秒发送一次数据
+  delay(5000);  // 每5秒发送一次数据
 }
