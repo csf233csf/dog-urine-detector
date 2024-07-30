@@ -1,6 +1,7 @@
 # Dog Urinate Detector
 
 This is a project combining Arduino / Python Flask API / Machine Learning Model. 
+
 Aim is to teach where the dog needs to urinate.
 
 ## Pipeline:
